@@ -55,7 +55,8 @@ pixel y runs down, page y runs up.
 | Red eye brush | | takes red out where painted |
 | Fill bucket | G | fills like-coloured pixels (Tolerance, Contiguous) |
 | Gradient | | from the colour to clear, or to white |
-| Eyedropper | I | picks the colour |
+| Eyedropper | I | picks the colour seen (all layers) |
+| Move | V | drags the pixels of the layer in use; what leaves the picture is lost |
 
 Brush options: Size 1 to 1000 px (default 40), Hardness 0 to 100 %
 (50), Opacity 0 to 100 % (100), Flow 0 to 100 % (60). `[` and `]` change
@@ -81,6 +82,30 @@ edge inwards), Red eye (in the selection), Flip horizontal and vertical.
 Effects: any bitmap effect, with its settings and a preview, runs inside
 the selection only (the whole picture with no selection), blended
 through the mask.
+
+## Layers
+
+The picture can hold layers of pixels, all of its size, bottom first
+(`PixelImage::layers`); the first is the picture as opened (Background).
+Every tool works on the layer in use (`PixelImage::img`); a locked layer
+keeps its pixels (brushes, fill, gradient, move and the retouch and
+effect commands do nothing on it; selections and the eyedropper work).
+What is seen is the layers put together bottom first, each with its
+opacity and merge mode (the 28 merge modes of transparencies, drawn by
+the renderer's `composite_layer`); hidden layers are left out. While
+painting only the changed box is put together again.
+
+Layers panel (top of the side panel): the layers top first, each with a
+show box, a lock box and its name (a click uses it); the name, opacity
+(a drag of the slider is one undo step) and merge mode of the layer in
+use; New (clear, above), Duplicate, Delete (never the last), Up, Down,
+Merge Down (into the one below with its opacity and mode; the one below
+keeps its settings), Flatten; Copy to Layer and Cut to Layer (the
+selected pixels, soft edges kept, on a new layer above), Paste as Layer
+(the picture on the clipboard, its top left at the selection's).
+
+Crop and flip reach every layer. Finish puts the layers together into
+the picture's pixels, as they were seen; the drawing keeps no layers.
 
 ## Undo
 
@@ -122,6 +147,14 @@ All keep the size and alpha of the picture.
   (`a_linked_picture_stands_alone_after_editing`).
 - Given an effect preview, then the picture changes only on Apply
   (`an_effect_preview_does_not_change_the_picture_until_applied`).
+- Given a picture with a half-opaque layer, when finished, then the
+  picture holds the layers put together, and a locked layer was not
+  changed (`finish_puts_the_layers_together_and_a_locked_layer_keeps_its_pixels`).
+- Layers: `a_new_layer_is_clear_and_painting_changes_only_it`,
+  `layer_opacity_visibility_and_merge_mode_change_what_is_seen`,
+  `merge_down_flatten_delete_and_order`,
+  `copy_and_cut_to_layer_and_move_a_layer`,
+  `crop_and_flip_reach_every_layer`.
 - Clone, heal, dodge, burn, sponge, blur, sharpen, smudge, red eye,
   bucket, gradient, content fill, feather, grow and history each have a
   test in `pixel_edit::tests`; the light effects in `fx::light::tests`.
