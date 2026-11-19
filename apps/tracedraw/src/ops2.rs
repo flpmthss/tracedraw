@@ -719,6 +719,7 @@ impl App {
                     opacity,
                     blur,
                     merge,
+                    spread,
                 } => Some((
                     *offset,
                     crate::app::InnerShadowStyle {
@@ -726,6 +727,7 @@ impl App {
                         opacity: *opacity,
                         blur: *blur,
                         merge: *merge,
+                        spread: *spread,
                     },
                 )),
                 _ => None,
@@ -5918,6 +5920,8 @@ fn effects_reach(s: &Shape) -> f64 {
         .map(|e| match e {
             Effect::OuterShadow { offset, blur, .. } => blur.abs() + offset.hypot(),
             Effect::Glow { blur, .. } | Effect::GaussianBlur { radius: blur } => blur.abs(),
+            // Whole dots reach half a cell past the edge.
+            Effect::Halftone { size, .. } => size.abs(),
             _ => 0.0,
         })
         .filter(|r| r.is_finite())
