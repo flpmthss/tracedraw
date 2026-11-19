@@ -32,6 +32,7 @@ pub fn effect_key(e: &Effect) -> &'static str {
         Effect::ColorOverlay { .. } => "effect.color_overlay",
         Effect::GradientOverlay { .. } => "effect.gradient_overlay",
         Effect::GaussianBlur { .. } => "effect.gaussian_blur",
+        Effect::Grain { .. } => "effect.grain",
         Effect::FillOpacity { .. } => "effect.fill_opacity",
         Effect::Symmetry { .. } => "effect.symmetry",
         Effect::Spray { .. } => "media.sprayer",
