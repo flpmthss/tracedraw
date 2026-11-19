@@ -18,6 +18,13 @@ mod field_focus_tests;
 
 fn frame(ctx: &egui::Context, app: &mut App, events: Vec<Event>, modifiers: Modifiers) {
     run_frame(ctx, app, events, modifiers);
+    // A paste reads the system clipboard on a worker: wait for it, as the
+    // next frames of the window would.
+    let deadline = std::time::Instant::now() + std::time::Duration::from_secs(10);
+    while app.poll_clipboard_paste() {
+        assert!(std::time::Instant::now() < deadline, "paste timed out");
+        std::thread::sleep(std::time::Duration::from_millis(1));
+    }
 }
 
 fn run_frame(
