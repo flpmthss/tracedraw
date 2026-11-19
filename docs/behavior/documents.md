@@ -121,7 +121,9 @@ versions included.
   the same class as a surrogate COM server with a `ThumbnailHandler` on
   the `.tdraw` association. The release build makes, signs and packs the
   DLL with the programs; the portable zip registers nothing and has no
-  thumbnails. Explorer keeps the pictures it made in its thumbnail cache:
+  thumbnails. The Windows provider frames the first page's artwork,
+  including objects outside the sheet. If the page has no content bounds,
+  it uses the sheet. Explorer keeps the pictures it made in its thumbnail cache:
   files seen before the install show their picture once the cache lets
   go of the icon (Disk Cleanup, Thumbnails).
 - Linux: the `.deb` installs the `application/x-tdraw` type and a

@@ -2,8 +2,8 @@
 //! thumbnail provider (`IThumbnailProvider` with `IInitializeWithStream`)
 //! the installer registers for the `.tdraw` extension, and for `.cdr`
 //! where no other program gives those files thumbnails (#3239). Explorer
-//! hands it the file as a stream; it draws the drawing's first page on white paper,
-//! with what lies beside it on the desktop (#2357), at the size asked and returns it as a 32-bit bitmap with alpha.
+//! hands it the file as a stream; it frames the first page's artwork, including objects outside the sheet,
+//! on a white background and returns it as a 32-bit bitmap with alpha.
 //!
 //! The picture itself is made by [`thumbnail_rgba`], which every platform
 //! builds and tests; only the COM glue is Windows code.
@@ -14,15 +14,31 @@ use tracedraw_core::Document;
 /// under `.tdraw\ShellEx\{e357fccd-a995-4576-b01f-234630154e96}`.
 pub const CLSID_TEXT: &str = "{6B1E5D3A-2F41-4C8E-9B7A-1D2C3E4F5A60}";
 
-/// The first page of the drawing in `bytes` (a `.tdraw` file), with what
-/// lies beside it on the desktop (#2357), drawn with its long side `size` pixels on white paper: width, height and RGBA
+/// The artwork on the first page, framed with its long side `size` pixels
+/// on a white background: width, height and RGBA
 /// pixels (straight, not premultiplied). `None` when the file cannot be
 /// read or has no page; never panics on what the file holds.
 pub fn thumbnail_rgba(bytes: &[u8], size: u32) -> Option<(u32, u32, Vec<u8>)> {
     let doc = read_drawing(bytes)?;
     let page = doc.pages.first()?;
     let size = f64::from(size.clamp(16, 2048));
-    let pm = tracedraw_render::render_whole_page_image(&doc, page.id, size)?;
+    // Frame the artwork itself so off-page objects stay centered.
+    let sheet = tracedraw_core::geometry::Rect::new(0.0, 0.0, page.size.width, page.size.height);
+    let area = doc
+        .content_bounds(page.id)
+        .ok()
+        .flatten()
+        .filter(|b| {
+            [b.width(), b.height()]
+                .iter()
+                .all(|v| v.is_finite() && *v > 0.0)
+        })
+        .unwrap_or(sheet);
+    let longest = area.width().max(area.height());
+    if !longest.is_finite() || longest <= 0.0 {
+        return None;
+    }
+    let pm = tracedraw_render::render_area_image(&doc, page.id, area, size * 25.4 / longest)?;
     let mut rgba = Vec::with_capacity(pm.data().len());
     for px in pm.pixels() {
         let c = px.demultiply();
@@ -249,6 +265,26 @@ mod com {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn distant_objects_are_visible_without_resizing_the_page() {
+        let bytes = include_bytes!("../tests/fixtures/distant-objects.tdraw");
+        let (w, h, rgba) = thumbnail_rgba(bytes, 512).expect("a thumbnail");
+        assert_eq!(w.max(h), 512);
+        assert_eq!(h, 6, "the empty sheet does not enlarge the frame");
+        assert!(
+            rgba.chunks_exact(4)
+                .any(|p| p[0] > 150 && p[1] < 50 && p[2] < 50),
+            "near red object"
+        );
+        assert!(
+            rgba.chunks_exact(4)
+                .any(|p| p[1] > 100 && p[0] < 50 && p[2] < 50),
+            "distant green object"
+        );
+        let doc = read_drawing(bytes).expect("the unchanged drawing");
+        assert_eq!(doc.pages[0].size.width, 210.0);
+        assert_eq!(doc.pages[0].size.height, 297.0);
+    }
 
     /// The sample drawing gives a picture with its long side as asked,
     /// white where the page is empty; anything else gives none.
