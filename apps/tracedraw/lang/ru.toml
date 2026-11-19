@@ -9825,3 +9825,25 @@ docker.page_range_matches = "{n} из {total} существующих стра�
 docker.range_no_current_page = "Выберите страницу диапазона, добавьте страницы или измените диапазон." # mt
 docker.range_name_required = "Введите имя слоя." # mt
 docker.page_range_example = "1-8, 12, 15-20" # mt
+
+# Live pattern strokes
+media.pattern_stroke = "Штрих из мотивов" # mt
+media.pattern_stroke_desc = "Повторять сохранённый векторный мотив вдоль редактируемой кривой." # mt
+media.pattern_motif = "Мотив" # mt
+media.pattern_save = "Сохранить выделение как мотив" # mt
+media.pattern_save_desc = "Сохранить простые векторные объекты в документе. Сначала преобразуйте текст и эффекты в кривые." # mt
+media.pattern_load = "Загрузить выбранный штрих" # mt
+media.pattern_load_desc = "Загрузить мотив и параметры, затем применить к кривой для подтверждения." # mt
+media.pattern_start = "Отступ от начала" # mt
+media.pattern_end = "Отступ от конца" # mt
+media.pattern_offset = "Боковое смещение" # mt
+media.pattern_rotation = "Поворот" # mt
+media.pattern_follow = "Следовать направлению пути" # mt
+media.pattern_reverse = "Обратить направление" # mt
+media.pattern_hint = "Выберите сохранённый мотив и кривую и примените. Размер: наибольшая сторона. Интервал: между центрами. Изменения библиотеки не меняют существующие штрихи." # mt
+media.pattern_spacing_desc = "Расстояние между центрами вдоль кривой в миллиметрах." # mt
+media.pattern_name = "Название мотива" # mt
+media.pattern_gallery = "Сохранённые мотивы" # mt
+media.pattern_empty = "Нет сохранённых мотивов. Выберите объект и сохраните его." # mt
+media.pattern_break = "Разделить узор" # mt
+media.pattern_remove = "Удалить узор" # mt

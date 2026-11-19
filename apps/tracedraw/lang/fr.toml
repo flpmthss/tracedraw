@@ -9825,3 +9825,25 @@ docker.page_range_matches = "{n} pages actuelles sur {total}" # mt
 docker.range_no_current_page = "Choisissez une page de cette plage, ajoutez des pages ou modifiez la plage." # mt
 docker.range_name_required = "Saisissez un nom de calque." # mt
 docker.page_range_example = "1-8, 12, 15-20" # mt
+
+# Live pattern strokes
+media.pattern_stroke = "Trait à motifs" # mt
+media.pattern_stroke_desc = "Répéter un motif vectoriel enregistré le long d’une courbe modifiable." # mt
+media.pattern_motif = "Motif" # mt
+media.pattern_save = "Enregistrer la sélection comme motif" # mt
+media.pattern_save_desc = "Enregistrer des objets vectoriels simples dans ce document. Convertir d’abord le texte et les effets en courbes." # mt
+media.pattern_load = "Charger le trait sélectionné" # mt
+media.pattern_load_desc = "Charger le motif et ses réglages, puis appliquer à la courbe pour valider." # mt
+media.pattern_start = "Distance au début" # mt
+media.pattern_end = "Distance à la fin" # mt
+media.pattern_offset = "Décalage latéral" # mt
+media.pattern_rotation = "Rotation" # mt
+media.pattern_follow = "Suivre la direction du tracé" # mt
+media.pattern_reverse = "Inverser la direction" # mt
+media.pattern_hint = "Choisir un motif enregistré, sélectionner une courbe et appliquer. Taille : plus grand côté. Espacement : de centre à centre. Les modifications de la bibliothèque ne changent pas les traits existants." # mt
+media.pattern_spacing_desc = "Distance de centre à centre le long de la courbe, en millimètres." # mt
+media.pattern_name = "Nom du motif" # mt
+media.pattern_gallery = "Motifs enregistrés" # mt
+media.pattern_empty = "Aucun motif enregistré. Sélectionnez un objet et enregistrez-le." # mt
+media.pattern_break = "Séparer le motif" # mt
+media.pattern_remove = "Retirer le motif" # mt

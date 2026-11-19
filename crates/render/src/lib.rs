@@ -289,7 +289,8 @@ pub fn render_page_cancellable(
 /// [`render_page_cancellable`] that hands over the picture a band of
 /// rows at a time as the bands come done, `band(y0, rows)` with the rows
 /// `y0..y0 + rows.height()` exactly as they are in the whole picture,
-/// the band holding row `first` first and the others outward from it
+/// bands scheduled outward from row `first`; workers hand over each
+/// band as it finishes, so completion order can differ from queue order
 /// (#2389). A zoom on a large drawing showed the last picture scaled,
 /// blurry, until the whole new one was ready: the canvas now lays each
 /// band over it as it comes, sharp where it is done, the middle of the
@@ -323,13 +324,11 @@ pub fn render_page_progressive(
     } else {
         // Bands of at least 64 rows, about three for each core.
         let count = (cores * PROGRESS_BANDS_PER_CORE).min(h / 64).max(cores);
-        band_layout(h, count, blur_margin(blur_mm, opts.view.zoom))
+        progressive_band_layout(h, count, blur_margin(blur_mm, opts.view.zoom), first)
     };
-    let Some(mut bands) = bands.filter(|b| b.len() > 1) else {
+    let Some(bands) = bands.filter(|b| b.len() > 1) else {
         return render_page_cancellable(doc, page, opts, cancel);
     };
-    let middle = |b: &(u32, u32, u32, u32)| (b.0 + b.1) / 2;
-    bands.sort_by_key(|b| middle(b).abs_diff(first));
     let next = AtomicUsize::new(0);
     let done: std::sync::Mutex<Vec<(u32, Pixmap)>> = std::sync::Mutex::new(Vec::new());
     std::thread::scope(|sc| {
@@ -385,6 +384,20 @@ pub fn render_page_progressive(
 /// is drawn in ([`render_page_progressive`]).
 #[cfg(not(target_arch = "wasm32"))]
 const PROGRESS_BANDS_PER_CORE: u32 = 3;
+
+/// Queue the bands nearest the requested row first. Workers finish them
+/// independently, so their completion order is not a priority guarantee.
+#[cfg(not(target_arch = "wasm32"))]
+fn progressive_band_layout(
+    height: u32,
+    count: u32,
+    margin: u32,
+    first: u32,
+) -> Option<Vec<(u32, u32, u32, u32)>> {
+    let mut bands = band_layout(height, count, margin)?;
+    bands.sort_by_key(|b| ((b.0 + b.1) / 2).abs_diff(first));
+    Some(bands)
+}
 
 fn render_page_until(
     doc: &Document,
@@ -11293,10 +11306,37 @@ mod band_tests {
         assert!(worst <= 2, "bands differ by {worst}");
     }
 
+    #[cfg(not(target_arch = "wasm32"))]
+    #[test]
+    fn progressive_bands_are_queued_from_the_requested_row() {
+        // Check queue priority directly: thread scheduling and per-band
+        // drawing cost must not decide whether the test passes.
+        for (first, want) in [
+            (0, vec![0, 128, 256, 384, 512, 640]),
+            (350, vec![256, 384, 128, 512, 0, 640]),
+            (699, vec![640, 512, 384, 256, 128, 0]),
+        ] {
+            let bands = progressive_band_layout(700, 6, 16, first).unwrap();
+            let starts: Vec<_> = bands.iter().map(|b| b.0).collect();
+            assert_eq!(starts, want, "first row {first}");
+        }
+        // Row alignment can yield fewer bands than workers on a short
+        // picture. It must still cover all rows exactly once.
+        let mut bands = progressive_band_layout(700, 16, 16, 350).unwrap();
+        assert_eq!(bands.len(), 15);
+        bands.sort_by_key(|b| b.0);
+        let mut end = 0;
+        for (y0, y1, ry0, ry1) in bands {
+            assert_eq!(y0, end);
+            assert!(ry0 <= y0 && ry1 >= y1);
+            end = y1;
+        }
+        assert_eq!(end, 700);
+    }
+
     /// A picture handed over a band at a time (#2389): the bands cover
-    /// every row once, the middle row's comes among the first, the
-    /// picture handed back is the bands put together, and it is the
-    /// picture drawn at once (but for the few edge pixels of curves cut
+    /// every row once, the picture handed back is the bands put together,
+    /// and it is the picture drawn at once (but for the few edge pixels of curves cut
     /// by a band's edge, as with [`render_page`]'s own bands). A render
     /// told to give up hands over no picture.
     #[cfg(not(target_arch = "wasm32"))]
@@ -11337,11 +11377,7 @@ mod band_tests {
             assert!(got.is_empty(), "one core: drawn whole");
             return;
         }
-        assert!(
-            got.len() > cores.min(16),
-            "more bands than cores: {}",
-            got.len()
-        );
+        assert!(got.len() > 1, "drawn in multiple bands: {}", got.len());
         let row = 900 * 4;
         let mut covered = vec![0u8; 700];
         for (y0, rows) in &got {
@@ -11356,16 +11392,8 @@ mod band_tests {
             );
         }
         assert!(covered.iter().all(|c| *c == 1), "every row once");
-        // The band done first is the one holding the middle row, or one
-        // drawn beside it at the same time: the first few handed over
-        // include it.
-        let first_few = &got[..cores.min(got.len())];
-        assert!(
-            first_few
-                .iter()
-                .any(|(y0, r)| (*y0..*y0 + r.height()).contains(&350)),
-            "the middle comes among the first"
-        );
+        // Completion order depends on scheduling and per-band drawing
+        // cost. Queue priority is checked separately above.
         cancel.store(true, std::sync::atomic::Ordering::Relaxed);
         assert!(render_page_progressive(&doc, page, &opts, &cancel, 0, &|_, _| ()).is_none());
     }

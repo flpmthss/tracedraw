@@ -9825,3 +9825,25 @@ docker.page_range_matches = "{n} ຈາກ {total} ໜ້າປັດຈຸບ�
 docker.range_no_current_page = "ເລືອກໜ້າໃນຊ່ວງຂອງຊັ້ນ, ເພີ່ມໜ້າ ຫຼື ແກ້ໄຂຊ່ວງ." # mt
 docker.range_name_required = "ປ້ອນຊື່ຊັ້ນ." # mt
 docker.page_range_example = "1-8, 12, 15-20" # mt
+
+# Live pattern strokes
+media.pattern_stroke = "ເສັ້ນລວດລາຍ" # mt
+media.pattern_stroke_desc = "ເຮັດລວດລາຍເວັກເຕີທີ່ບັນທຶກໄວ້ຊ້ຳຕາມເສັ້ນໂຄ້ງທີ່ແກ້ໄຂໄດ້." # mt
+media.pattern_motif = "ລວດລາຍ" # mt
+media.pattern_save = "ບັນທຶກສິ່ງທີ່ເລືອກເປັນລວດລາຍ" # mt
+media.pattern_save_desc = "ບັນທຶກວັດຖຸເວັກເຕີທຳມະດາໃນເອກະສານນີ້. ປ່ຽນຂໍ້ຄວາມແລະເອັບເຟັກເປັນເສັ້ນໂຄ້ງກ່ອນ." # mt
+media.pattern_load = "ໂຫຼດເສັ້ນທີ່ເລືອກ" # mt
+media.pattern_load_desc = "ໂຫຼດລວດລາຍແລະການຕັ້ງຄ່າ ແລ້ວນຳໃຊ້ກັບເສັ້ນໂຄ້ງເພື່ອຢືນຢັນ." # mt
+media.pattern_start = "ໄລຍະຈາກຈຸດເລີ່ມ" # mt
+media.pattern_end = "ໄລຍະຈາກຈຸດສິ້ນສຸດ" # mt
+media.pattern_offset = "ໄລຍະຫ່າງດ້ານຂ້າງ" # mt
+media.pattern_rotation = "ການໝຸນ" # mt
+media.pattern_follow = "ຕາມທິດທາງເສັ້ນ" # mt
+media.pattern_reverse = "ປີ້ນທິດທາງ" # mt
+media.pattern_hint = "ເລືອກລວດລາຍທີ່ບັນທຶກແລະເສັ້ນໂຄ້ງແລ້ວນຳໃຊ້. ຂະໜາດແມ່ນດ້ານທີ່ຍາວທີ່ສຸດ. ໄລຍະຫ່າງວັດລະຫວ່າງຈຸດກາງ. ການແກ້ໄຂຄັງບໍ່ປ່ຽນເສັ້ນທີ່ມີແລ້ວ." # mt
+media.pattern_spacing_desc = "ໄລຍະລະຫວ່າງຈຸດກາງຕາມເສັ້ນໂຄ້ງ ເປັນມິນລີແມັດ." # mt
+media.pattern_name = "ຊື່ລວດລາຍ" # mt
+media.pattern_gallery = "ລວດລາຍທີ່ບັນທຶກ" # mt
+media.pattern_empty = "ຍັງບໍ່ມີລວດລາຍທີ່ບັນທຶກ. ເລືອກວັດຖຸແລະບັນທຶກ." # mt
+media.pattern_break = "ແຍກລວດລາຍ" # mt
+media.pattern_remove = "ເອົາລວດລາຍອອກ" # mt

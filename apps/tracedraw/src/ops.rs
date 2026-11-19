@@ -598,6 +598,15 @@ impl App {
             self.break_shadow_apart();
             return;
         }
+        if !self.selection.is_empty()
+            && self
+                .selected_rc()
+                .iter()
+                .all(tracedraw_core::pattern_stroke::is_pattern)
+        {
+            self.break_selected_patterns();
+            return;
+        }
         // A contour, blend or extrude group: its steps become objects of
         // their own beside the object (Break Contour Group Apart, #424).
         if self.effect_group_to_break().is_some() {

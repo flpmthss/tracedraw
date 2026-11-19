@@ -33,6 +33,7 @@ mod kept_data;
 mod kept_document;
 mod kept_effects;
 pub mod parse;
+mod pattern_record;
 mod shadow_image;
 pub mod spot;
 mod text;

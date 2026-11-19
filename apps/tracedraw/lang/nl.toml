@@ -9825,3 +9825,25 @@ docker.page_range_matches = "{n} van {total} huidige pagina's" # mt
 docker.range_no_current_page = "Kies een pagina in dit bereik, voeg pagina's toe of wijzig het bereik." # mt
 docker.range_name_required = "Voer een laagnaam in." # mt
 docker.page_range_example = "1-8, 12, 15-20" # mt
+
+# Live pattern strokes
+media.pattern_stroke = "Patroonstreek" # mt
+media.pattern_stroke_desc = "Herhaal een opgeslagen vectormotief langs een bewerkbare kromme." # mt
+media.pattern_motif = "Motief" # mt
+media.pattern_save = "Selectie als motief opslaan" # mt
+media.pattern_save_desc = "Sla eenvoudige vectorobjecten in dit document op. Zet tekst en effecten eerst om naar krommen." # mt
+media.pattern_load = "Geselecteerde streek laden" # mt
+media.pattern_load_desc = "Laad motief en instellingen en pas toe op de kromme om te bevestigen." # mt
+media.pattern_start = "Beginafstand" # mt
+media.pattern_end = "Eindafstand" # mt
+media.pattern_offset = "Zijwaartse afstand" # mt
+media.pattern_rotation = "Rotatie" # mt
+media.pattern_follow = "Padrichting volgen" # mt
+media.pattern_reverse = "Richting omkeren" # mt
+media.pattern_hint = "Kies een opgeslagen motief, selecteer een kromme en pas toe. Grootte: langste zijde. Afstand: van midden tot midden. Bibliotheekwijzigingen veranderen bestaande streken niet." # mt
+media.pattern_spacing_desc = "Afstand van midden tot midden langs de kromme, in millimeters." # mt
+media.pattern_name = "Motiefnaam" # mt
+media.pattern_gallery = "Opgeslagen motieven" # mt
+media.pattern_empty = "Geen opgeslagen motieven. Selecteer een object en sla het op." # mt
+media.pattern_break = "Patroon splitsen" # mt
+media.pattern_remove = "Patroon verwijderen" # mt

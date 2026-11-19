@@ -9825,3 +9825,25 @@ docker.page_range_matches = "Mevcut {total} sayfanın {n} tanesi" # mt
 docker.range_no_current_page = "Katmanın aralığında bir sayfa seçin, sayfa ekleyin veya aralığı düzenleyin." # mt
 docker.range_name_required = "Bir katman adı girin." # mt
 docker.page_range_example = "1-8, 12, 15-20" # mt
+
+# Live pattern strokes
+media.pattern_stroke = "Desen çizgisi" # mt
+media.pattern_stroke_desc = "Kaydedilmiş bir vektör motifini düzenlenebilir eğri boyunca tekrarlayın." # mt
+media.pattern_motif = "Motif" # mt
+media.pattern_save = "Seçimi motif olarak kaydet" # mt
+media.pattern_save_desc = "Basit vektör nesnelerini bu belgede kaydedin. Önce metin ve efektleri eğrilere dönüştürün." # mt
+media.pattern_load = "Seçili çizgiyi yükle" # mt
+media.pattern_load_desc = "Motifi ve ayarları yükleyin, ardından değişiklikleri onaylamak için eğriye uygulayın." # mt
+media.pattern_start = "Başlangıç uzaklığı" # mt
+media.pattern_end = "Bitiş uzaklığı" # mt
+media.pattern_offset = "Yanal uzaklık" # mt
+media.pattern_rotation = "Döndürme" # mt
+media.pattern_follow = "Yol yönünü izle" # mt
+media.pattern_reverse = "Yönü ters çevir" # mt
+media.pattern_hint = "Kayıtlı motif ve eğri seçip uygulayın. Boyut en uzun kenardır, aralık merkezler arasındadır. Kitaplık düzenlemeleri mevcut çizgileri değiştirmez." # mt
+media.pattern_spacing_desc = "Eğri boyunca merkezler arası uzaklık, milimetre cinsinden." # mt
+media.pattern_name = "Motif adı" # mt
+media.pattern_gallery = "Kayıtlı motifler" # mt
+media.pattern_empty = "Kayıtlı motif yok. Bir nesne seçip kaydedin." # mt
+media.pattern_break = "Deseni ayır" # mt
+media.pattern_remove = "Deseni kaldır" # mt

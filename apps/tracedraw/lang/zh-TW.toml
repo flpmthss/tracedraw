@@ -9825,3 +9825,25 @@ docker.page_range_matches = "目前符合 {n} / {total} 頁" # mt
 docker.range_no_current_page = "請選擇此圖層範圍內的頁面、新增頁面或修改範圍。" # mt
 docker.range_name_required = "請輸入圖層名稱。" # mt
 docker.page_range_example = "1-8, 12, 15-20" # mt
+
+# Live pattern strokes
+media.pattern_stroke = "圖案筆畫" # mt
+media.pattern_stroke_desc = "沿可編輯曲線重複已儲存的向量圖案。" # mt
+media.pattern_motif = "圖案" # mt
+media.pattern_save = "將選取範圍儲存為圖案" # mt
+media.pattern_save_desc = "在此文件中儲存簡單向量物件。請先將文字和效果轉換為曲線。" # mt
+media.pattern_load = "載入所選筆畫" # mt
+media.pattern_load_desc = "載入圖案和設定，然後套用至曲線以確認變更。" # mt
+media.pattern_start = "起點距離" # mt
+media.pattern_end = "終點距離" # mt
+media.pattern_offset = "側向位移" # mt
+media.pattern_rotation = "旋轉" # mt
+media.pattern_follow = "跟隨路徑方向" # mt
+media.pattern_reverse = "反轉方向" # mt
+media.pattern_hint = "選擇已儲存圖案，選取曲線並套用。大小為圖案最長邊，間距為中心間距。編輯圖庫不會變更現有筆畫。" # mt
+media.pattern_spacing_desc = "沿曲線的中心間距，單位為毫米。" # mt
+media.pattern_name = "圖案名稱" # mt
+media.pattern_gallery = "已儲存圖案" # mt
+media.pattern_empty = "沒有已儲存圖案。請選取物件並儲存。" # mt
+media.pattern_break = "拆分圖案" # mt
+media.pattern_remove = "移除圖案" # mt

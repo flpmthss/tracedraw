@@ -9825,3 +9825,25 @@ docker.page_range_matches = "{n} von {total} vorhandenen Seiten" # mt
 docker.range_no_current_page = "Eine Seite im Ebenenbereich wählen, Seiten hinzufügen oder den Bereich ändern." # mt
 docker.range_name_required = "Einen Ebenennamen eingeben." # mt
 docker.page_range_example = "1-8, 12, 15-20" # mt
+
+# Live pattern strokes
+media.pattern_stroke = "Musterstrich" # mt
+media.pattern_stroke_desc = "Ein gespeichertes Vektormotiv entlang einer bearbeitbaren Kurve wiederholen." # mt
+media.pattern_motif = "Motiv" # mt
+media.pattern_save = "Auswahl als Motiv speichern" # mt
+media.pattern_save_desc = "Einfache Vektorobjekte in diesem Dokument speichern. Text und Effekte zuerst in Kurven umwandeln." # mt
+media.pattern_load = "Ausgewählten Strich laden" # mt
+media.pattern_load_desc = "Motiv und Einstellungen laden, dann mit Auf Kurve anwenden bestätigen." # mt
+media.pattern_start = "Startabstand" # mt
+media.pattern_end = "Endabstand" # mt
+media.pattern_offset = "Seitlicher Versatz" # mt
+media.pattern_rotation = "Drehung" # mt
+media.pattern_follow = "Pfadrichtung folgen" # mt
+media.pattern_reverse = "Richtung umkehren" # mt
+media.pattern_hint = "Gespeichertes Motiv wählen, Kurve auswählen und anwenden. Größe: längste Motivseite. Abstand: Mitte zu Mitte. Bibliotheksänderungen ändern vorhandene Striche nicht." # mt
+media.pattern_spacing_desc = "Abstand zwischen den Mittelpunkten entlang der Kurve in Millimetern." # mt
+media.pattern_name = "Motivname" # mt
+media.pattern_gallery = "Gespeicherte Motive" # mt
+media.pattern_empty = "Keine gespeicherten Motive. Ein Objekt auswählen und speichern." # mt
+media.pattern_break = "Muster zerlegen" # mt
+media.pattern_remove = "Muster entfernen" # mt

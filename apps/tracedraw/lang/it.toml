@@ -9825,3 +9825,25 @@ docker.page_range_matches = "{n} di {total} pagine attuali" # mt
 docker.range_no_current_page = "Scegliere una pagina dell'intervallo, aggiungere pagine o modificare l'intervallo." # mt
 docker.range_name_required = "Inserire un nome per il livello." # mt
 docker.page_range_example = "1-8, 12, 15-20" # mt
+
+# Live pattern strokes
+media.pattern_stroke = "Tratto a motivi" # mt
+media.pattern_stroke_desc = "Ripeti un motivo vettoriale salvato lungo una curva modificabile." # mt
+media.pattern_motif = "Motivo" # mt
+media.pattern_save = "Salva selezione come motivo" # mt
+media.pattern_save_desc = "Salva oggetti vettoriali semplici nel documento. Converti prima testo ed effetti in curve." # mt
+media.pattern_load = "Carica tratto selezionato" # mt
+media.pattern_load_desc = "Carica motivo e impostazioni, poi applica alla curva per confermare." # mt
+media.pattern_start = "Distanza iniziale" # mt
+media.pattern_end = "Distanza finale" # mt
+media.pattern_offset = "Scostamento laterale" # mt
+media.pattern_rotation = "Rotazione" # mt
+media.pattern_follow = "Segui direzione del tracciato" # mt
+media.pattern_reverse = "Inverti direzione" # mt
+media.pattern_hint = "Scegli un motivo salvato, seleziona una curva e applica. Dimensione: lato maggiore. Spaziatura: da centro a centro. Le modifiche della libreria non cambiano i tratti esistenti." # mt
+media.pattern_spacing_desc = "Distanza da centro a centro lungo la curva, in millimetri." # mt
+media.pattern_name = "Nome del motivo" # mt
+media.pattern_gallery = "Motivi salvati" # mt
+media.pattern_empty = "Nessun motivo salvato. Seleziona un oggetto e salvalo." # mt
+media.pattern_break = "Separa motivo" # mt
+media.pattern_remove = "Rimuovi motivo" # mt

@@ -609,7 +609,11 @@ impl App {
             let groups: Vec<ShapeId> = self
                 .selected_shapes()
                 .iter()
-                .filter(|s| matches!(s.kind, ShapeKind::Group { .. }) || s.is_clip_frame_of_group())
+                .filter(|s| {
+                    matches!(s.kind, ShapeKind::Group { .. })
+                        || s.is_clip_frame_of_group()
+                        || tracedraw_core::pattern_stroke::is_pattern(s)
+                })
                 .map(|s| s.id)
                 .collect();
             if groups.is_empty() {

@@ -82,3 +82,9 @@ Status tracked in `docs/features.md`.
 - Automatic updates from inside the app (checking and downloading done, see `behavior/updates.md`; installing in place done for the Linux AppImage; Windows and macOS wait for code signing and a test on real machines)
 - User documentation (done; see `guide/README.md`)
 - Public launch and announcement once Pick and Shape tool parity is reached
+
+- Pattern strokes: reusable plain-vector motifs, a live editable guide and
+  conservative version-27 linked-pattern recovery are implemented with
+  synthetic tests and an owned drawing checked locally. Full brush-record
+  coverage, motif sequences and native linked-pattern export remain open;
+  see `behavior/pattern-strokes.md`.

@@ -9825,3 +9825,25 @@ docker.page_range_matches = "{n} dari {total} halaman saat ini" # mt
 docker.range_no_current_page = "Pilih halaman dalam rentang lapisan, tambah halaman, atau ubah rentang." # mt
 docker.range_name_required = "Masukkan nama lapisan." # mt
 docker.page_range_example = "1-8, 12, 15-20" # mt
+
+# Live pattern strokes
+media.pattern_stroke = "Goresan pola" # mt
+media.pattern_stroke_desc = "Ulangi motif vektor tersimpan sepanjang kurva yang dapat diedit." # mt
+media.pattern_motif = "Motif" # mt
+media.pattern_save = "Simpan pilihan sebagai motif" # mt
+media.pattern_save_desc = "Simpan objek vektor sederhana dalam dokumen ini. Ubah teks dan efek menjadi kurva terlebih dahulu." # mt
+media.pattern_load = "Muat goresan terpilih" # mt
+media.pattern_load_desc = "Muat motif dan pengaturan, lalu terapkan pada kurva untuk mengonfirmasi." # mt
+media.pattern_start = "Jarak awal" # mt
+media.pattern_end = "Jarak akhir" # mt
+media.pattern_offset = "Pergeseran samping" # mt
+media.pattern_rotation = "Rotasi" # mt
+media.pattern_follow = "Ikuti arah jalur" # mt
+media.pattern_reverse = "Balik arah" # mt
+media.pattern_hint = "Pilih motif tersimpan dan kurva lalu terapkan. Ukuran: sisi terpanjang. Jarak: antarpusat. Perubahan pustaka tidak mengubah goresan yang ada." # mt
+media.pattern_spacing_desc = "Jarak antarpusat sepanjang kurva dalam milimeter." # mt
+media.pattern_name = "Nama motif" # mt
+media.pattern_gallery = "Motif tersimpan" # mt
+media.pattern_empty = "Belum ada motif tersimpan. Pilih objek dan simpan." # mt
+media.pattern_break = "Pisahkan pola" # mt
+media.pattern_remove = "Hapus pola" # mt

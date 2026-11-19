@@ -9825,3 +9825,25 @@ docker.page_range_matches = "मौजूदा {total} पृष्ठों �
 docker.range_no_current_page = "परत की सीमा का पृष्ठ चुनें, पृष्ठ जोड़ें या सीमा बदलें।" # mt
 docker.range_name_required = "परत का नाम लिखें।" # mt
 docker.page_range_example = "1-8, 12, 15-20" # mt
+
+# Live pattern strokes
+media.pattern_stroke = "पैटर्न स्ट्रोक" # mt
+media.pattern_stroke_desc = "सहेजे गए वेक्टर रूपांकन को संपादन योग्य वक्र पर दोहराएँ।" # mt
+media.pattern_motif = "रूपांकन" # mt
+media.pattern_save = "चयन को रूपांकन के रूप में सहेजें" # mt
+media.pattern_save_desc = "इस दस्तावेज़ में सरल वेक्टर वस्तुएँ सहेजें। पहले पाठ और प्रभावों को वक्रों में बदलें।" # mt
+media.pattern_load = "चयनित स्ट्रोक लोड करें" # mt
+media.pattern_load_desc = "रूपांकन और सेटिंग लोड करें, फिर बदलाव के लिए वक्र पर लागू करें।" # mt
+media.pattern_start = "आरंभ से दूरी" # mt
+media.pattern_end = "अंत से दूरी" # mt
+media.pattern_offset = "पार्श्व विस्थापन" # mt
+media.pattern_rotation = "घुमाव" # mt
+media.pattern_follow = "पथ की दिशा का अनुसरण करें" # mt
+media.pattern_reverse = "दिशा उलटें" # mt
+media.pattern_hint = "सहेजा गया रूपांकन और वक्र चुनें और लागू करें। आकार सबसे लंबी भुजा है, अंतर केंद्रों के बीच है। लाइब्रेरी के बदलाव मौजूदा स्ट्रोक नहीं बदलते।" # mt
+media.pattern_spacing_desc = "वक्र पर केंद्रों के बीच की दूरी, मिलीमीटर में।" # mt
+media.pattern_name = "रूपांकन का नाम" # mt
+media.pattern_gallery = "सहेजे गए रूपांकन" # mt
+media.pattern_empty = "कोई रूपांकन सहेजा नहीं गया। कोई वस्तु चुनकर सहेजें।" # mt
+media.pattern_break = "पैटर्न अलग करें" # mt
+media.pattern_remove = "पैटर्न हटाएँ" # mt

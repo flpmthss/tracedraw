@@ -9825,3 +9825,25 @@ docker.page_range_matches = "{n} z {total} současných stránek" # mt
 docker.range_no_current_page = "Vyberte stránku v rozsahu vrstvy, přidejte stránky nebo upravte rozsah." # mt
 docker.range_name_required = "Zadejte název vrstvy." # mt
 docker.page_range_example = "1-8, 12, 15-20" # mt
+
+# Live pattern strokes
+media.pattern_stroke = "Tah se vzorem" # mt
+media.pattern_stroke_desc = "Opakujte uložený vektorový motiv podél upravitelné křivky." # mt
+media.pattern_motif = "Motiv" # mt
+media.pattern_save = "Uložit výběr jako motiv" # mt
+media.pattern_save_desc = "Uložte jednoduché vektorové objekty v dokumentu. Text a efekty nejprve převeďte na křivky." # mt
+media.pattern_load = "Načíst vybraný tah" # mt
+media.pattern_load_desc = "Načtěte motiv a nastavení a potvrďte použitím na křivku." # mt
+media.pattern_start = "Vzdálenost od začátku" # mt
+media.pattern_end = "Vzdálenost od konce" # mt
+media.pattern_offset = "Boční posun" # mt
+media.pattern_rotation = "Otočení" # mt
+media.pattern_follow = "Sledovat směr cesty" # mt
+media.pattern_reverse = "Obrátit směr" # mt
+media.pattern_hint = "Vyberte uložený motiv a křivku a použijte. Velikost: nejdelší strana. Rozestup: mezi středy. Úpravy knihovny nemění existující tahy." # mt
+media.pattern_spacing_desc = "Vzdálenost mezi středy podél křivky v milimetrech." # mt
+media.pattern_name = "Název motivu" # mt
+media.pattern_gallery = "Uložené motivy" # mt
+media.pattern_empty = "Žádné uložené motivy. Vyberte objekt a uložte jej." # mt
+media.pattern_break = "Rozdělit vzor" # mt
+media.pattern_remove = "Odstranit vzor" # mt

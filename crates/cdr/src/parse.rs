@@ -630,6 +630,8 @@ struct Ctx<'a> {
     /// The shape each static id (`usdn`) was read as, gathered only when
     /// the package names blends by them (#986).
     static_ids: Option<HashMap<u32, tracedraw_core::ShapeId>>,
+    pattern_links: HashMap<u32, u32>,
+    pattern_shapes: HashMap<u32, tracedraw_core::ShapeId>,
     report: ParseReport,
 }
 
@@ -702,6 +704,8 @@ impl<'a> Ctx<'a> {
             cmyk_profile: None,
             cmyk_lut: None,
             static_ids: None,
+            pattern_links: HashMap::new(),
+            pattern_shapes: HashMap::new(),
             report: ParseReport::default(),
         }
     }
@@ -754,6 +758,14 @@ pub(crate) fn parse_document_kept_data(
     let mut ctx = Ctx::new(main, tree, version.0);
     if !kept.is_empty() || !kept_effects.is_empty() || !kept_data.is_empty() {
         ctx.static_ids = Some(HashMap::new());
+    }
+    if version.0 == 27 {
+        tree.root.walk(&mut |c, _| {
+            if c.is(b"lnkt") {
+                ctx.pattern_links
+                    .extend(crate::pattern_record::links(ctx.data(c)));
+            }
+        });
     }
     ctx.report.version = Some(version);
     ctx.cmyk_profile = cmyk_profile
@@ -5061,6 +5073,14 @@ impl<'a> Ctx<'a> {
                         }
                         shape.visible &= visible;
                         self.note_static_id(c, shape.id);
+                        if !self.pattern_links.is_empty() {
+                            if let Some(id) = c
+                                .find(b"spnd")
+                                .and_then(|k| self.reader(self.data(k)).u32())
+                            {
+                                self.pattern_shapes.insert(id, shape.id);
+                            }
+                        }
                         out.push(shape);
                     }
                     None if std::mem::take(&mut self.last_was_guide) => {}
@@ -5226,6 +5246,51 @@ impl<'a> Ctx<'a> {
                     }
                 }
                 self.outer_transform = saved;
+                // A checked uniform pattern keeps its guide and original
+                // vectors together, with editable placement parameters.
+                if self.v == 27 && perspective.is_none() {
+                    let group_id = c
+                        .find(b"spnd")
+                        .and_then(|k| self.reader(self.data(k)).u32());
+                    let guide_id = group_id
+                        .and_then(|id| self.pattern_links.get(&id))
+                        .and_then(|id| self.pattern_shapes.get(id))
+                        .copied();
+                    let record = c.find(b"lgob").and_then(|k| k.find(b"loda"));
+                    if let Some(record) = record {
+                        let data = self.data(record);
+                        let table = tracedraw_cdr_format::loda::table(data, self.v);
+                        if let Some(table) = table.filter(|t| t.kind == 28) {
+                            let settings = table
+                                .args
+                                .iter()
+                                .find(|a| a.ty == 3000)
+                                .and_then(|a| data.get(a.off..a.end))
+                                .and_then(crate::pattern_record::settings);
+                            let recovered = guide_id
+                                .and_then(|id| out.get(..before)?.iter().position(|s| s.id == id))
+                                .and_then(|i| {
+                                    let (spacing, rotation) = settings?;
+                                    let guide = out.get(i)?;
+                                    crate::pattern_record::recover(
+                                        guide,
+                                        out.get(before..)?,
+                                        spacing,
+                                        rotation,
+                                    )
+                                    .map(|effect| (i, effect))
+                                });
+                            if let Some((i, effect)) = recovered {
+                                if let Some(guide) = out.get_mut(i) {
+                                    guide.effects.push(effect);
+                                }
+                                out.truncate(before);
+                                continue;
+                            }
+                            self.report.warn("a linked pattern stays as separate vectors: its parameters or placements are not yet supported");
+                        }
+                    }
+                }
                 // A blend keeps no steps of its own: an empty linked group
                 // between its two end objects, its `loda` of object type 7
                 // holding the step count (#597).
@@ -8530,6 +8595,100 @@ pub(crate) mod tests {
             .flat_map(|l| &l.shapes)
             .next()
             .expect("one shape")
+    }
+
+    /// Original records built from the documented layout, with no copied artwork.
+    #[test]
+    fn pattern_stroke_linked_group_recovers_the_guide_and_falls_back_safely() {
+        let mut coords = u32s(&[2]);
+        coords.extend(i32s(&[0, 0, 400_000, 0]));
+        coords.extend([0, 0x40]);
+        let guide = list(
+            b"obj ",
+            &[
+                chunk(b"spnd", &u32s(&[2])),
+                chunk(b"usdn", &u32s(&[70])),
+                chunk(b"loda", &loda(OBJ_CURVE, &[(ARG_COORDS, coords)])),
+            ]
+            .concat(),
+        );
+        let mut parameters = vec![0; 692];
+        for (at, value) in [
+            (0, 4u32),
+            (4, u32::MAX),
+            (8, 100000),
+            (16, 2),
+            (20, 2),
+            (548, 32),
+            (552, 1),
+            (556, 2),
+            (560, 0x00640001),
+            (564, 99),
+            (568, 80000),
+            (572, 63500),
+            (576, 0),
+            (588, 1),
+            (688, 1),
+        ] {
+            parameters[at..at + 4].copy_from_slice(&value.to_le_bytes());
+        }
+        let mut square = u32s(&[5]);
+        square.extend(i32s(&[0, 0, 40_000, 0, 40_000, 20_000, 0, 20_000, 0, 0]));
+        square.extend([0x08, 0x40, 0x40, 0x40, 0x48]);
+        let copies: Vec<_> = (0..=5)
+            .map(|i| {
+                list(
+                    b"obj ",
+                    &[
+                        chunk(b"loda", &loda(OBJ_CURVE, &[(ARG_COORDS, square.clone())])),
+                        chunk(
+                            b"trfd",
+                            &trfd(
+                                27,
+                                [1.0, 0.0, (i * 80_000 - 20_000) as f64, 0.0, 1.0, -10_000.0],
+                            ),
+                        ),
+                    ]
+                    .concat(),
+                )
+            })
+            .collect();
+        let read = |mut parameters: Vec<u8>, linked: bool| {
+            if !linked {
+                parameters[592] = 1;
+            }
+            let group = list(
+                b"lnkg",
+                &[
+                    chunk(b"spnd", &u32s(&[1])),
+                    list(b"lgob", &chunk(b"loda", &loda(28, &[(3000, parameters)]))),
+                    copies.concat(),
+                ]
+                .concat(),
+            );
+            let body = [
+                chunk(b"mcfg", &mcfg(27, 1_000_000, 1_000_000)),
+                chunk(
+                    b"lnkt",
+                    &u32s(&[52, 1, 12, 20, 52, 256, 1, 2, 0, 0, 0, 0, 0]),
+                ),
+                list(b"page", &list(b"layr", &[guide.clone(), group].concat())),
+            ]
+            .concat();
+            parse(&riff(b"CDRD", &body), 27)
+        };
+        let (doc, report) = read(parameters.clone(), true);
+        let shapes = &doc.pages[0].layers[0].shapes;
+        assert_eq!(shapes.len(), 1, "{:?}", report.warnings);
+        let result = tracedraw_core::live::evaluate(&shapes[0]);
+        assert_eq!(result.above.len(), 6);
+        assert!(matches!(
+            shapes[0].effects[0],
+            tracedraw_core::live::Effect::PatternStroke { .. }
+        ));
+        let (fallback, report) = read(parameters, false);
+        assert_eq!(fallback.pages[0].layers[0].shapes.len(), 7);
+        assert!(report.warnings.iter().any(|w| w.contains("linked pattern")));
     }
 
     #[test]

@@ -9825,3 +9825,25 @@ docker.page_range_matches = "当前匹配 {n} / {total} 页" # mt
 docker.range_no_current_page = "请选择此图层范围内的页面，添加页面或修改范围。" # mt
 docker.range_name_required = "请输入图层名称。" # mt
 docker.page_range_example = "1-8, 12, 15-20" # mt
+
+# Live pattern strokes
+media.pattern_stroke = "图案笔画" # mt
+media.pattern_stroke_desc = "沿可编辑曲线重复已保存的矢量图案。" # mt
+media.pattern_motif = "图案" # mt
+media.pattern_save = "将选区保存为图案" # mt
+media.pattern_save_desc = "在本文档中保存简单矢量对象。请先将文字和效果转换为曲线。" # mt
+media.pattern_load = "加载所选笔画" # mt
+media.pattern_load_desc = "加载图案和设置，然后应用到曲线以确认更改。" # mt
+media.pattern_start = "起点距离" # mt
+media.pattern_end = "终点距离" # mt
+media.pattern_offset = "侧向偏移" # mt
+media.pattern_rotation = "旋转" # mt
+media.pattern_follow = "跟随路径方向" # mt
+media.pattern_reverse = "反转方向" # mt
+media.pattern_hint = "选择已保存图案，选择曲线并应用。大小为图案最长边，间距为中心间距。编辑图库不会更改现有笔画。" # mt
+media.pattern_spacing_desc = "沿曲线的中心间距，单位为毫米。" # mt
+media.pattern_name = "图案名称" # mt
+media.pattern_gallery = "已保存图案" # mt
+media.pattern_empty = "没有已保存图案。请选择对象并保存。" # mt
+media.pattern_break = "拆分图案" # mt
+media.pattern_remove = "移除图案" # mt

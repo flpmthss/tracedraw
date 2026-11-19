@@ -5989,6 +5989,10 @@ pub struct Document {
     pub color_styles: Vec<ColorStyle>,
     #[serde(default)]
     pub symbols: Vec<Symbol>,
+    /// Dedicated motif library. None reads the earlier symbol-backed library;
+    /// Some(empty) is an explicitly empty library, including after deletion.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub pattern_motifs: Option<Vec<crate::pattern_stroke::PatternMotif>>,
     #[serde(default)]
     pub metadata: Metadata,
     /// Document-level palette (the bottom "document palette").
@@ -6408,6 +6412,7 @@ impl Document {
             defaults: ObjectDefaults::default(),
             color_styles: Vec::new(),
             symbols: Vec::new(),
+            pattern_motifs: None,
             metadata: Metadata {
                 resolution_dpi: 300.0,
                 ..Default::default()

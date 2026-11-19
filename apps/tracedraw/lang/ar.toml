@@ -9825,3 +9825,25 @@ docker.page_range_matches = "{n} من {total} صفحة حالية" # mt
 docker.range_no_current_page = "اختر صفحة ضمن نطاق الطبقة أو أضف صفحات أو عدل النطاق." # mt
 docker.range_name_required = "أدخل اسم الطبقة." # mt
 docker.page_range_example = "1-8, 12, 15-20" # mt
+
+# Live pattern strokes
+media.pattern_stroke = "حد زخرفي" # mt
+media.pattern_stroke_desc = "تكرار عنصر متجه محفوظ على طول منحنى قابل للتحرير." # mt
+media.pattern_motif = "عنصر زخرفي" # mt
+media.pattern_save = "حفظ التحديد كعنصر زخرفي" # mt
+media.pattern_save_desc = "حفظ كائنات متجهة بسيطة في هذا المستند. حوّل النص والتأثيرات إلى منحنيات أولاً." # mt
+media.pattern_load = "تحميل الحد المحدد" # mt
+media.pattern_load_desc = "تحميل العنصر والإعدادات ثم تطبيقها على المنحنى لتأكيد التغييرات." # mt
+media.pattern_start = "المسافة من البداية" # mt
+media.pattern_end = "المسافة من النهاية" # mt
+media.pattern_offset = "الإزاحة الجانبية" # mt
+media.pattern_rotation = "الدوران" # mt
+media.pattern_follow = "اتباع اتجاه المسار" # mt
+media.pattern_reverse = "عكس الاتجاه" # mt
+media.pattern_hint = "اختر عنصراً محفوظاً ومنحنى ثم طبّق. الحجم هو أطول ضلع والتباعد بين المراكز. تعديل المكتبة لا يغيّر الحدود الحالية." # mt
+media.pattern_spacing_desc = "المسافة بين المراكز على طول المنحنى بالمليمتر." # mt
+media.pattern_name = "اسم العنصر الزخرفي" # mt
+media.pattern_gallery = "العناصر الزخرفية المحفوظة" # mt
+media.pattern_empty = "لا توجد عناصر محفوظة. حدد كائناً واحفظه." # mt
+media.pattern_break = "تفكيك النمط" # mt
+media.pattern_remove = "إزالة النمط" # mt

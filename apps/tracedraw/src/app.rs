@@ -2112,6 +2112,12 @@ pub struct App {
     pub media_mode: crate::media::MediaMode,
     pub media_preset: usize,
     pub media_spacing: f64,
+    pub media_motif: Option<Shape>,
+    pub media_motif_name: String,
+    pub media_motif_index: Option<usize>,
+    pub media_pattern_loaded_from: Option<ShapeId>,
+    pub media_pattern_original: Option<Box<tracedraw_core::pattern_stroke::PatternOriginal>>,
+    pub media_pattern: tracedraw_core::pattern_stroke::PatternOptions,
     pub media_pressure: f64,
     pub media_smoothing: f64,
     /// The pen's pressure right now (0 to 1), from the stylus of a
@@ -3517,6 +3523,12 @@ impl App {
             media_mode: crate::media::MediaMode::Calligraphic,
             media_preset: 0,
             media_spacing: 8.0,
+            media_motif: None,
+            media_motif_name: String::new(),
+            media_motif_index: None,
+            media_pattern_loaded_from: None,
+            media_pattern_original: None,
+            media_pattern: Default::default(),
             media_pressure: 0.5,
             pen_pressure: None,
             pen_stroke: crate::pen::PenStroke::default(),
@@ -7700,10 +7712,23 @@ impl App {
     /// frame is a group, which come apart into one clip frame per object
     /// of the frame (#1605). The members come out selected.
     pub fn ungroup_selection(&mut self) {
+        if !self.selection.is_empty()
+            && self
+                .selected_rc()
+                .iter()
+                .all(tracedraw_core::pattern_stroke::is_pattern)
+        {
+            self.break_selected_patterns();
+            return;
+        }
         let groups: Vec<ShapeId> = self
             .selected_shapes()
             .iter()
-            .filter(|s| matches!(s.kind, ShapeKind::Group { .. }) || s.is_clip_frame_of_group())
+            .filter(|s| {
+                matches!(s.kind, ShapeKind::Group { .. })
+                    || s.is_clip_frame_of_group()
+                    || tracedraw_core::pattern_stroke::is_pattern(s)
+            })
             .map(|s| s.id)
             .collect();
         if groups.is_empty() {
@@ -7719,6 +7744,7 @@ impl App {
             match &s.kind {
                 ShapeKind::Group { children } => members.extend(children.iter().map(|c| c.id)),
                 ShapeKind::ClipFrame { .. } if s.is_clip_frame_of_group() => members.push(s.id),
+                _ if tracedraw_core::pattern_stroke::is_pattern(&s) => members.push(s.id),
                 _ => {}
             }
         }

@@ -225,9 +225,11 @@ pub(crate) fn object_menu(app: &mut App, ui: &mut Ui, close: &mut bool) {
         .iter()
         .any(|s| matches!(s.kind, ShapeKind::Text { .. }));
     // A clip frame whose frame is a group ungroups too (#1605).
-    let is_group = shapes
-        .iter()
-        .any(|s| matches!(s.kind, ShapeKind::Group { .. }) || s.is_clip_frame_of_group());
+    let is_group = shapes.iter().any(|s| {
+        matches!(s.kind, ShapeKind::Group { .. })
+            || s.is_clip_frame_of_group()
+            || tracedraw_core::pattern_stroke::is_pattern(s)
+    });
     let is_curve = shapes
         .iter()
         .any(|s| matches!(s.kind, ShapeKind::Path { .. }));
