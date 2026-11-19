@@ -844,6 +844,9 @@ pub(crate) fn tab_icon(tab: DockerTab) -> Option<TabIcon> {
         DockerTab::Contour => Some(|p, r| glyph_pic(p, r, Glyph::Contour)),
         DockerTab::Envelope => Some(|p, r| tool_pic(p, r, crate::tools::Tool::Envelope)),
         DockerTab::Extrude => Some(|p, r| glyph_pic(p, r, Glyph::Extrude)),
+        // The Extrude picture, reused until the panel gets its own (a new
+        // picture waits for the maintainer's choice).
+        DockerTab::Shape3d => Some(|p, r| glyph_pic(p, r, Glyph::Extrude)),
         DockerTab::Bevel => Some(|p, r| glyph_pic(p, r, Glyph::Bevel)),
         DockerTab::BrushStrokes => Some(|p, r| glyph_pic(p, r, Glyph::BrushStrokes)),
         DockerTab::BitmapMask => Some(|p, r| tool_pic(p, r, crate::tools::Tool::ColorEyedropper)),

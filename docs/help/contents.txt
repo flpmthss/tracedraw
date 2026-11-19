@@ -82,6 +82,7 @@ effects/index
   effects/mosaics
   effects/symbol-scatter
   effects/frame-generator
+  effects/revolve-inflate
   effects/bitmap-effects
 text/index
   text/adding-text
