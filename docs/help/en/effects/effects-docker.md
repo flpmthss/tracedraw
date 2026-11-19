@@ -21,6 +21,19 @@ Each row of the list has:
 Every change is one undo step. Each effect is still edited with its own tool
 or panel.
 
+Above the list, the layer effects are switched on with their boxes and set on
+the right, live on the page. **Transform** draws copies of the object,
+each one the one before it scaled (**Scale H** and
+**V**, in percent), moved, turned by **Angle** about
+the object's centre and mirrored with **Reflect X** or
+**Reflect Y**; **Copies** sets how many (0 transforms the
+object itself). **Random** gives each step a random share of those
+values. Outlines keep their width unless **Scale outlines** is on. A
+thick round-capped ring with an 85% scale, a 15° turn and a dozen copies
+makes a spiral of rings. The object stays as it is, so its shape, color and
+the effect stay editable; **Effects > Flatten Effects** makes the
+copies objects.
+
 Under the list, the built-in looks give the selected objects a finished
 look with one click: chrome, liquid metal, gold, liquid glass (which blurs
 what lies beneath it) and clear glass. Each picture shows the selected object

@@ -23,6 +23,19 @@ Cada linha da lista tem:
 Cada alteração é um passo de desfazer. Cada efeito continua sendo editado com a
 própria ferramenta ou painel.
 
+Acima da lista, os efeitos de camada são ligados com suas caixas e ajustados à
+direita, ao vivo na página. **Transformar** desenha cópias do objeto, cada
+uma a anterior escalada (**Escala H** e **V**, em
+porcentagem), deslocada, girada por **Ângulo** em torno do centro do
+objeto e espelhada com **Refletir X** ou **Refletir Y**;
+**Cópias** define quantas (0 transforma o próprio objeto).
+**Aleatório** dá a cada passo uma parte aleatória desses valores. Os
+contornos mantêm a espessura, a menos que **Escalar contornos** esteja
+ligado. Um anel de contorno grosso com pontas redondas, escala de 85%, giro de
+15° e uma dúzia de cópias forma uma espiral de anéis. O objeto continua como
+está, então a forma, a cor e o efeito seguem editáveis;
+**Efeitos > Achatar efeitos** transforma as cópias em objetos.
+
 Abaixo da lista, os visuais prontos dão aos objetos selecionados um acabamento
 com um clique: cromado, metal líquido, ouro, vidro líquido (que desfoca o que
 está por baixo) e vidro transparente. Cada imagem mostra o objeto selecionado

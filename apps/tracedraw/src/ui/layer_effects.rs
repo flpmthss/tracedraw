@@ -35,10 +35,11 @@ pub enum Kind {
     ColorOverlay,
     GradientOverlay,
     GaussianBlur,
+    Transform,
 }
 
 impl Kind {
-    pub const ALL: [Kind; 10] = [
+    pub const ALL: [Kind; 11] = [
         Kind::Bevel,
         Kind::Outline,
         Kind::ThreeD,
@@ -49,6 +50,7 @@ impl Kind {
         Kind::ColorOverlay,
         Kind::GradientOverlay,
         Kind::GaussianBlur,
+        Kind::Transform,
     ];
 
     pub fn key(self) -> &'static str {
@@ -63,6 +65,7 @@ impl Kind {
             Kind::ColorOverlay => "effect.color_overlay",
             Kind::GradientOverlay => "effect.gradient_overlay",
             Kind::GaussianBlur => "effect.gaussian_blur",
+            Kind::Transform => "effect.transform",
         }
     }
 
@@ -88,6 +91,7 @@ impl Kind {
                 | (Kind::ColorOverlay, Effect::ColorOverlay { .. })
                 | (Kind::GradientOverlay, Effect::GradientOverlay { .. })
                 | (Kind::GaussianBlur, Effect::GaussianBlur { .. })
+                | (Kind::Transform, Effect::Transform { .. })
         )
     }
 
@@ -164,6 +168,20 @@ impl Kind {
                 opacity: 0.5,
             },
             Kind::GaussianBlur => Effect::GaussianBlur { radius: 1.0 },
+            // Rings closing in on the centre, a little turned each time.
+            Kind::Transform => Effect::Transform {
+                scale_x: 85.0,
+                scale_y: 85.0,
+                move_x: 0.0,
+                move_y: 0.0,
+                angle: 15.0,
+                copies: 6,
+                reflect_x: false,
+                reflect_y: false,
+                random: false,
+                seed: 1,
+                scale_strokes: false,
+            },
         }
     }
 }
@@ -612,8 +630,141 @@ fn settings(app: &App, ui: &mut Ui, e: &mut Effect) -> bool {
                 changed |= length(app, ui, "layer_fx.radius", radius, 50.0);
             });
         }
+        Effect::Transform { .. } => changed |= transform_settings(app, ui, e),
         _ => {}
     }
+    changed
+}
+
+/// The scale lock of the Transform entry, kept between frames.
+fn scale_lock_id() -> egui::Id {
+    egui::Id::new("layer_fx_transform_lock")
+}
+
+/// A signed length field in the document's units, the value in mm.
+fn signed_length(app: &App, ui: &mut Ui, label: &str, desc: &str, mm: &mut f64) -> bool {
+    const MAX: f64 = 2000.0;
+    ui.label(tr(label));
+    let mut v = app.units.world_from_mm(*mm);
+    let lim = app.units.world_from_mm(MAX);
+    let r = ui
+        .add(
+            NumField::new(&mut v)
+                .range(-lim..=lim)
+                .length_decimals(app.settings.precision.min(10) as usize)
+                .unit_mm(app.units.world_to_mm(1.0))
+                .suffix(format!(" {}", app.units.short()))
+                .width(70.0),
+        )
+        .rich_tip(crate::ui::tips::pair(label, desc));
+    if r.changed() {
+        *mm = app.units.world_to_mm(v).clamp(-MAX, MAX);
+        true
+    } else {
+        false
+    }
+}
+
+/// The Transform entry: scale, move, turn, how many copies, mirrors,
+/// random steps and whether outlines scale too.
+fn transform_settings(app: &App, ui: &mut Ui, e: &mut Effect) -> bool {
+    let Effect::Transform {
+        scale_x,
+        scale_y,
+        move_x,
+        move_y,
+        angle,
+        copies,
+        reflect_x,
+        reflect_y,
+        random,
+        seed,
+        scale_strokes,
+    } = e
+    else {
+        return false;
+    };
+    let mut changed = false;
+    let mut lock = ui.data(|d| d.get_temp::<bool>(scale_lock_id())).unwrap_or(true);
+    let pct = |ui: &mut Ui, v: &mut f64, label: &str| {
+        ui.label(tr(label));
+        ui.add(
+            NumField::new(v)
+                .range(-1000.0..=1000.0)
+                .speed(1.0)
+                .suffix(" %")
+                .width(62.0),
+        )
+        .rich_tip(crate::ui::tips::pair(label, "layer_fx.scale_desc"))
+        .changed()
+    };
+    ui.horizontal(|ui| {
+        if pct(ui, scale_x, "layer_fx.scale_h") {
+            if lock {
+                *scale_y = *scale_x;
+            }
+            changed = true;
+        }
+        if pct(ui, scale_y, "layer_fx.scale_v") {
+            if lock {
+                *scale_x = *scale_y;
+            }
+            changed = true;
+        }
+        ui.checkbox(&mut lock, tr("docker.proportional"))
+            .rich_tip(tr("layer_fx.scale_lock"));
+    });
+    ui.data_mut(|d| d.insert_temp(scale_lock_id(), lock));
+    ui.horizontal(|ui| {
+        changed |= signed_length(app, ui, "layer_fx.move_h", "layer_fx.move_desc", move_x);
+        changed |= signed_length(app, ui, "layer_fx.move_v", "layer_fx.move_desc", move_y);
+    });
+    ui.horizontal(|ui| {
+        ui.label(tr("layer_fx.angle"));
+        changed |= ui
+            .add(
+                NumField::new(angle)
+                    .range(-360.0..=360.0)
+                    .speed(1.0)
+                    .suffix("\u{00B0}")
+                    .width(62.0),
+            )
+            .rich_tip(crate::ui::tips::pair("layer_fx.angle", "layer_fx.turn_desc"))
+            .changed();
+        ui.label(tr("layer_fx.copies"));
+        changed |= ui
+            .add(NumField::new(copies).range(0..=tracedraw_core::live::MAX_TRANSFORM_COPIES))
+            .rich_tip(crate::ui::tips::pair("layer_fx.copies", "layer_fx.copies_desc"))
+            .changed();
+    });
+    ui.horizontal(|ui| {
+        changed |= ui
+            .checkbox(reflect_x, tr("layer_fx.reflect_x"))
+            .rich_tip(tr("layer_fx.reflect_x_desc"))
+            .changed();
+        changed |= ui
+            .checkbox(reflect_y, tr("layer_fx.reflect_y"))
+            .rich_tip(tr("layer_fx.reflect_y_desc"))
+            .changed();
+    });
+    ui.horizontal(|ui| {
+        changed |= ui
+            .checkbox(random, tr("layer_fx.random"))
+            .rich_tip(tr("layer_fx.random_desc"))
+            .changed();
+        if ui
+            .add_enabled(*random, egui::Button::new(tr("layer_fx.reseed")))
+            .rich_tip(tr("layer_fx.reseed_desc"))
+            .clicked()
+        {
+            *seed = seed.wrapping_mul(1_103_515_245).wrapping_add(12_345);
+            changed = true;
+        }
+    });
+    changed |= ui
+        .checkbox(scale_strokes, tr("layer_fx.scale_strokes"))
+        .rich_tip(tr("layer_fx.scale_strokes_desc"))
+        .changed();
     changed
 }
 

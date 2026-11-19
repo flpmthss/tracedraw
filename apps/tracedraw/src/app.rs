@@ -1307,6 +1307,12 @@ pub struct App {
     /// `object_clone.rs`).
     pub clone_sync_revision: u64,
     pub ellipse_arc: Option<tracedraw_core::EllipseArc>,
+    /// The 2-Point Line tool draws quarter arcs (`drag_copies.rs`), bowed
+    /// the other way with `line_arc_flip`.
+    pub line_arc: bool,
+    pub line_arc_flip: bool,
+    /// The copies a shape drag left with C held, until it ends.
+    pub drag_copies: Option<crate::drag_copies::DragCopies>,
     /// The Contour tool's and panel's values and the tool's drag.
     pub contour: crate::contour_tool::ContourSettings,
     pub contour_drag: Option<crate::contour_tool::ContourDrag>,
@@ -3137,6 +3143,9 @@ impl App {
             marquee_selection: None,
             clone_sync_revision: 0,
             ellipse_arc: None,
+            line_arc: false,
+            line_arc_flip: false,
+            drag_copies: None,
             contour: Default::default(),
             contour_drag: None,
             contour_handle_drag: None,
