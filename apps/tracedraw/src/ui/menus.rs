@@ -491,7 +491,7 @@ fn paint_new_mark(ui: &Ui, row: egui::Rect) {
     ui.painter().circle_filled(c, 3.5, Tokens::ACCENT);
 }
 
-fn item_text(
+pub(crate) fn item_text(
     ui: &mut Ui,
     label: &str,
     shortcut: &str,
@@ -1956,6 +1956,53 @@ mod tests {
         });
         assert!(ran);
         assert!((coeffs(&app)[0] - c0[0]).abs() < 1e-9);
+    }
+
+    /// A plugin's commands are commands like the menus' own: listed for
+    /// Options > Customization under their names, and run by a shortcut
+    /// of the user's (#3519).
+    #[test]
+    fn plugin_commands_take_shortcuts() {
+        use egui::{Key, Modifiers};
+        let ctx = crate::theme::ui_context();
+        let mut app = mixed_app();
+        app.show_welcome = false;
+        assert!(
+            app.install_plugin(crate::plugins::TEMPLATE),
+            "{}",
+            app.status
+        );
+        let mut entries = Vec::new();
+        run_frame(&ctx, |ui| entries = commands(&mut app, ui.ctx()));
+        let id = crate::plugins::command_key("My Plugin", "Box with a lid");
+        let e = entries
+            .iter()
+            .find(|e| e.key == id)
+            .expect("the plugin's command is listed");
+        assert_eq!(e.path.first().map(String::as_str), Some("menu.tools"));
+        assert_eq!(
+            crate::macros::command_name(&id),
+            Some(("Box with a lid".to_string(), "My Plugin".to_string()))
+        );
+        let count = |app: &App| {
+            app.doc().pages[0]
+                .layers
+                .iter()
+                .map(|l| l.shapes.len())
+                .sum::<usize>()
+        };
+        let before = count(&app);
+        app.settings
+            .shortcuts
+            .push((id.clone(), "Ctrl+Alt+D".into()));
+        root_frame(
+            &ctx,
+            &mut app,
+            vec![key(Key::D, Modifiers::COMMAND | Modifiers::ALT)],
+        );
+        root_frame(&ctx, &mut app, vec![]);
+        assert_eq!(count(&app), before + 2, "{}", app.status);
+        assert_eq!(invoke::shown_shortcut(&id, ""), "Ctrl+Alt+D");
     }
 
     /// A shortcut of the user's runs its menu command, takes over a

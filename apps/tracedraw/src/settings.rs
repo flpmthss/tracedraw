@@ -493,6 +493,9 @@ pub struct Settings {
     /// Options > Tools > Angular Dimension: the decimals, degree sign,
     /// prefix and suffix new angular dimensions take (#1436).
     pub angular_dimension: crate::dimensions::AngularDefaults,
+    /// How far Object > Insert > Add Dimensions puts its dimension lines
+    /// from the measured box, mm (#3530).
+    pub add_dimensions_gap: f64,
     /// Options > Tools > Connector: an object's own nodes are anchors
     /// too, besides its side midpoints and custom anchors (#1436).
     pub connector_geometric_anchors: bool,
@@ -2381,6 +2384,7 @@ impl Default for Settings {
             ellipse_clockwise: false,
             spiral_expansion: 100,
             angular_dimension: Default::default(),
+            add_dimensions_gap: crate::dimensions::ADD_DIMENSIONS_GAP,
             connector_geometric_anchors: false,
             connector_gap: 0.0,
             upgrades: UPGRADES,
