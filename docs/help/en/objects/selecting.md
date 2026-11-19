@@ -128,6 +128,10 @@ that are like the selected ones:
   size as the selected text (in any of its characters).
 - [[menu.edit.similar_kind]]: the same kind of object (rectangles,
   ellipses, curves, artistic text, paragraph text, groups, bitmaps...).
+- **Close Look**: a look close to the selected object's within the
+  **Tolerance** at the bottom of the submenu (10 % at first): fill
+  colours, outline colours and widths, and transparency near enough.
+  Click an object, then choose it, to pick everything that looks alike.
 
 With several objects selected, an object like any of them is taken. The
 objects inside groups are compared too, each on its own, and a selected

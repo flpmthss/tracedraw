@@ -129,6 +129,11 @@ parecidos com os selecionados:
   tamanho do texto selecionado (em qualquer um dos seus caracteres).
 - [[menu.edit.similar_kind]]: o mesmo tipo de objeto (retângulos, elipses,
   curvas, texto artístico, texto de parágrafo, grupos, bitmaps...).
+- **Aparência parecida**: uma aparência próxima da do objeto selecionado,
+  dentro da **Tolerância** no fim do submenu (10 % de início): cores de
+  preenchimento, cores e larguras de contorno e transparência perto o
+  bastante. Clique num objeto e escolha este item para pegar tudo o que se
+  parece com ele.
 
 Com vários objetos selecionados, vale um objeto parecido com qualquer um
 deles. Os objetos de dentro de grupos também são comparados, cada um por

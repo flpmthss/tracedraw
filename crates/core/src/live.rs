@@ -244,6 +244,12 @@ pub enum Effect {
         spacing: f64,
         color: Color,
     },
+    /// Tiles (the Brush Strokes tool's Tiles mode): one of the tile
+    /// pictures (`preset`: chain, rope, zigzag, dash and dot, waves,
+    /// beads) repeated end to end along the object's path and bent to
+    /// follow it, `width` mm across, in `color`, drawn above it as one
+    /// group (see [`crate::tiles`]).
+    Tiles { preset: u8, width: f64, color: Color },
     /// Gaussian blur (#1141): the object drawn blurred by `radius` mm.
     /// Drawn by the renderer.
     GaussianBlur { radius: f64 },
@@ -1629,6 +1635,13 @@ fn evaluate_now(shape: &Shape) -> Evaluated {
                 color,
             } => {
                 above.extend(spray_group(&main, *preset, *size, *spacing, *color));
+            }
+            Effect::Tiles {
+                preset,
+                width,
+                color,
+            } => {
+                above.extend(crate::tiles::tiles_group(&main, *preset, *width, *color));
             }
             Effect::FillOpacity { .. } => {}
             Effect::Lens(_)

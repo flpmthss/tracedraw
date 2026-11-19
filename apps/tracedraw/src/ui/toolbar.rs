@@ -1390,7 +1390,8 @@ fn brush_strokes_bar(app: &mut App, ui: &mut Ui) {
     let shapes: &[&str] = match app.media_mode {
         MediaMode::Preset | MediaMode::Brush => &crate::media::BRUSH_KEYS,
         MediaMode::Sprayer => &crate::media::SPRAY_KEYS,
-        MediaMode::Calligraphic | MediaMode::Expression => &[],
+        MediaMode::Tiles => &crate::media::TILE_KEYS,
+        MediaMode::Calligraphic | MediaMode::Expression | MediaMode::Merge => &[],
     };
     if !shapes.is_empty() {
         dim_labelled_as(
@@ -1447,7 +1448,7 @@ fn brush_strokes_bar(app: &mut App, ui: &mut Ui) {
                 )
             });
         }
-        MediaMode::Preset | MediaMode::Brush => {}
+        MediaMode::Preset | MediaMode::Brush | MediaMode::Tiles | MediaMode::Merge => {}
     }
 }
 

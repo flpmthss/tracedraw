@@ -2336,6 +2336,20 @@ fn brush_strokes(app: &mut App, ui: &mut Ui) {
                 "docker.spray_spacing_desc",
             ));
         }
+        crate::media::MediaMode::Tiles => {
+            ui.horizontal_wrapped(|ui| {
+                for (i, k) in crate::media::TILE_KEYS.iter().enumerate() {
+                    if ui
+                        .selectable_label(app.media_preset == i, tr(k))
+                        .rich_tip_with(|| format!("{}\n{}", tr(k), tr("docker.media_preset_desc")))
+                        .clicked()
+                    {
+                        app.media_preset = i;
+                    }
+                }
+            });
+        }
+        crate::media::MediaMode::Merge => {}
         crate::media::MediaMode::Expression => {
             ui.add(
                 crate::ui::Slider::new(&mut app.media_pressure, 0.0..=1.0)

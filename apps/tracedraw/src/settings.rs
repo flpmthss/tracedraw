@@ -145,6 +145,9 @@ pub struct PageSizePreset {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(default)]
 pub struct Settings {
+    /// Edit > Select Similar > Close Look: how far apart colours, outline
+    /// widths and opacity may be, 0 to 100 %.
+    pub similar_tolerance: u32,
     pub language: String,
     pub recent_files: Vec<PathBuf>,
     pub workspace: String,
@@ -2308,6 +2311,7 @@ impl PageLook {
 impl Default for Settings {
     fn default() -> Self {
         Settings {
+            similar_tolerance: 10,
             language: String::new(),
             recent_files: Vec::new(),
             workspace: "default".into(),

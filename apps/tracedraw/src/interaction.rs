@@ -4298,6 +4298,12 @@ impl App {
             Drag::Freehand { points } if self.tool == Tool::PainterlyBrush => {
                 self.add_painterly_stroke(&points);
             }
+            Drag::Freehand { points }
+                if self.tool == Tool::BrushStrokes
+                    && self.media_mode == crate::media::MediaMode::Merge =>
+            {
+                self.merge_brush_stroke(&points);
+            }
             Drag::Freehand { points } if self.tool == Tool::BrushStrokes => {
                 // A pen's pressure along the drag sets the width (#850).
                 let pen = self

@@ -3018,6 +3018,7 @@ fn edit_menu(app: &mut App, ui: &mut Ui) {
                 app.select_similar(how);
             }
         }
+        crate::select_similar::tolerance_row(ui, &mut app.settings.similar_tolerance);
     });
     sep(ui);
     if item(ui, "menu.edit.find_and_replace", "Ctrl+F", true) {

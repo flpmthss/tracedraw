@@ -35,6 +35,7 @@ pub fn effect_key(e: &Effect) -> &'static str {
         Effect::FillOpacity { .. } => "effect.fill_opacity",
         Effect::Symmetry { .. } => "effect.symmetry",
         Effect::Spray { .. } => "media.sprayer",
+        Effect::Tiles { .. } => "media.tiles",
         Effect::Lens(_) => "effect.lens",
         Effect::Transparency { .. } => "effect.transparency",
         Effect::OffsetPath { merge: true, .. } => "effect.merge_shapes",

@@ -451,6 +451,7 @@ pub(crate) fn object_menu(app: &mut App, ui: &mut Ui, close: &mut bool) {
                 app.select_similar(how);
             }
         }
+        crate::select_similar::tolerance_row(ui, &mut app.settings.similar_tolerance);
     });
     sep(ui);
     sub(ui, "menu.object.order", |ui| {

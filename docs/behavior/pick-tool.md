@@ -144,6 +144,7 @@ selected group finds the other groups (#2203).
 | Outline | the outline is equal (width, colour, dashes, caps, arrows...), or both have none |
 | Text Formatting (Font and Size) | both are text and share a font family (any case) and size (to 0.01 pt) in some of their characters |
 | Object Type | the same shape kind (rectangle, ellipse, polygon, curve, text, group, bitmap, clip frame, table, symbol), artistic and paragraph text apart |
+| Close Look | within the Tolerance (a field at the bottom of the submenu, in the Edit menu and the right-click menu, 0 to 100 %, 10 at first, `settings.similar_tolerance`): solid fills whose red, green and blue each differ by at most the tolerance of 255 (any other fill equal), outlines both none or with colours that close and widths within the tolerance of the wider, and opacity within the tolerance; also under Repeat on Similar (`select_similar::tests::close_look_picks_what_looks_alike_within_the_tolerance`) |
 
 Nothing selected, or no object alike: the selection stays. The status
 bar tells how many objects are selected.
